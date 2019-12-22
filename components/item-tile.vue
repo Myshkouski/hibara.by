@@ -35,7 +35,8 @@
 
         methods: {
             createSrcSet(source) {
-                return source.map(({ filename, w }) => '/img/' + filename + (w ? ' ' + w + 'w' : '')).join(',')
+                const { base } = this.$router.options
+                return source.map(({ filename, w }) => base + 'img/' + filename + (w ? ' ' + w + 'w' : '')).join(',')
             }
         }
     }
