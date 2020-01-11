@@ -1,7 +1,44 @@
-div
-    nav
-        div
-        div.icons
-            a.menu(href="javascript:void(0")
-                img(src="~/assets/img/menu.png" alt="Меню")
-    nuxt
+div.root-container
+    nav(id="nav" ref="nav")
+        menu.icons
+            div.icon.toggle-menu(:class="{ attended: tagFilter.length }")
+                img(src="~/assets/img/menu.png" alt="Меню" @click="isMenuActive = !isMenuActive")
+        menu.main(
+            ref="main-menu"
+            :class="{ translated: isMenuActive }"
+        )
+            div.filters
+                //- p {{ tags }}
+                //- p {{ tagFilter }}
+                div(v-for="(tag, index) in tags" :key="tag")
+                    input(
+                        type="checkbox"
+                        :id="'input-filter-' + tag"
+                        :value="tag"
+                        @input="$event.target.checked ? addTagFilter(tag) : deleteTagFilter(tag)"
+                    )
+                    label(:for="'input-filter-' + tag")
+                        div.filter
+                            span \#{{ tagNames.get(tag) }}
+            ul.contacts
+                li.menu-item
+                    a(:href="'tel:+' + contacts.tel" target="blank")
+                        h3 {{ contacts.tel }}
+                li.menu-item
+                    a(:href="'//t.me/' + contacts.tg" target="blank")
+                        h3 Telegram
+                li.menu-item
+                    a(:href="emailHref" target="blank")
+                        h3 {{ contacts.email }}
+    main(:class="{ translated: isMenuActive }")
+        nuxt
+    footer
+        div.button-scroll-top(
+            :class=`{
+                hidden: buttonScrollTopState == 'hidden',
+                up: buttonScrollTopState == 'up',
+                down: buttonScrollTopState == 'down'
+            }`
+            @click="scrollTop"
+        )
+            //- button() {{ buttonScrollTopText }}

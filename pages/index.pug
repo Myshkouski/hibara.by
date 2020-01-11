@@ -1,0 +1,14 @@
+div.root
+    div.tile-container.col-1(:class="{ loading }")
+        div.column(v-for="(column, index) in splitItemsToColumns(filteredItems, 1)" :key="index")
+            item-tile.tile(v-for="item in column" :key="item.code" :item="item")
+    div.tile-container.col-2(:class="{ loading }")
+        div.column(v-for="(column, index) in splitItemsToColumns(filteredItems, 2)" :key="index")
+            item-tile.tile(v-for="item in column" :key="item.code" :item="item")
+    div.tile-container.col-3(:class="{ loading }")
+        div.column(v-for="(column, index) in splitItemsToColumns(filteredItems, 3)" :key="index")
+            item-tile.tile(v-for="item in column" :key="item.code" :item="item")
+    div.loader(
+        ref="loader"
+        :style="{ width: '20px', height: '5vmin' }"
+    )

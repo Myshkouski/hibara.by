@@ -1,0 +1,215 @@
+@import '~/assets/theme.sass'
+    
+$border-radius: 1rem
+
+.tile
+    margin: 2rem 1rem
+
+    & > div
+        position: relative
+        background: #eee
+        overflow: hidden
+        border-radius: $border-radius
+
+        @media (prefers-color-scheme: dark)
+            background: #333
+            color: rgba(0, 0, 0, .25)
+    
+    &::before
+        content: ''
+        display: block
+        position: absolute
+        top: 0
+        left: 0
+        width: 100%
+        height: 100%
+        border-radius: $border-radius
+        box-shadow: 0 0 .5rem .5rem
+        transition-property: color
+        opacity: .35
+        
+        @supports (opacity: unset) and (filter: opacity(1)) and (filter: grayscale(1))
+            transition: filter .25s
+            opacity: unset
+            color: $accent-color
+            filter: grayscale(1) opacity(.35)
+
+        @media (prefers-color-scheme: dark)
+            background: #333
+            color: rgba(0, 0, 0, .25)
+
+    &.selected::before
+        opacity: 1
+
+        @supports (opacity: unset) and (filter: opacity(1)) and (filter: grayscale(1))
+            opacity: unset
+            filter: grayscale(0) opacity(1)
+        
+
+    .content
+        padding: 1rem
+        color: #000
+
+        @media (prefers-color-scheme: dark)
+            color: #fff
+
+        & > div:not(:last-child)
+            margin-bottom: 1rem
+    
+        h3
+            margin-top: 0
+            font-weight: bolder
+    // &:hover
+    //     width: 100%
+    //     border-radius: 0
+
+aside
+    display: flex
+
+    &.description
+        align-items: flex-start
+
+    @media screen and (prefers-color-scheme: dark)
+        & *
+            color: #fff
+
+    div.description
+        position: relative
+        flex-grow: 1
+        overflow: hidden
+
+    .props.extra
+        position: relative
+        overflow: hidden
+        transition-property: padding-bottom filter
+        transition-duration: .2s
+        transition-timing-function: ease
+        will-change: padding-bottom, filter
+
+        .list
+            position: relative
+            top: 0
+            
+        &:not(.expanded) .list
+            filter: opacity(.3)
+
+        &.expanded .list
+            filter: opacity(1)
+        
+    $button-size: 1.25rem
+
+    .fav-button
+        justify-self: flex-end
+        
+        span
+            vertical-align: middle
+            
+            &.star
+                font-size: 2rem
+                line-height: 2rem
+    
+    .expand-button
+        position: relative
+        flex-grow: 0
+        width: $button-size
+        height: $button-size
+        display: flex
+        justify-content: center
+        align-items: center
+        transition: transform .2s ease
+        will-change: transform
+        cursor: pointer
+
+        button
+            position: relative
+            font-size: $button-size
+            user-select: none
+            color: #555
+
+        &::before
+            content: ''
+            display: block
+            position: absolute
+            width: 150%
+            height: 150%
+            border-radius: 75%
+            background: #000
+            filter: opacity(.5)
+            transform: scale(0)
+            transition-property: transform filter
+            transition-duration: .25s
+            transition-timing-function: ease
+        
+            @media (prefers-color-scheme: dark)
+                background: #bbb
+        
+        &:hover::before
+            filter: opacity(.1)
+            transform: scale(1)
+
+        &.rotated
+            transform: rotateZ(90deg)
+
+.swiper
+    display: flex
+    position: relative
+    align-items: center
+    overflow: hidden
+    max-height: 40vmax
+    background: #333
+
+    @media (prefers-color-scheme: dark)
+        background: #222
+
+    ::v-deep & > .swiper-wrapper
+        display: flex
+        min-width: 100%
+        min-height: 100%
+    
+    &:hover .control
+        @media (hover: none)
+            // display: block
+
+    .slide
+        display: inline-flex
+        flex: 0 0 100%
+        height: 300px
+        overflow: hidden
+        cursor: pointer
+        
+        &:first-child
+            border-top-left-radius: $border-radius
+        &:last-child
+            border-top-right-radius: $border-radius
+
+        img
+            object-fit: cover
+            object-position: center
+            width: 100%
+            height: 100%
+            user-select: none
+
+$size: 2rem
+
+.swiper-container
+    position: relative
+
+.control
+    position: absolute
+    top: 50%
+    margin-top: -$size / 2
+    $offset: 0.1
+    width: $size
+    height: $size
+    display: flex
+    flex-direction: column
+    justify-content: center
+    left: $size * $offset
+    bottom: 0
+    overflow: hidden
+    border-radius: 50%
+    background: rgba(255, 255, 255, .5)
+
+    &.next
+        left: 100%
+        margin-left: -$size * (1 + $offset)

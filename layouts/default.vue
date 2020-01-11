@@ -1,4 +1,4 @@
-<template lang="pug" src="./default.pug"></template>
-<script src="./default.js"></script>
-<style lang="sass" src="./default.sass" scoped></style>
+<template lang="pug" src="./default.pug" />
+<script src="./default.js" />
+<style scoped lang="sass" src="./default.sass" ></style>
 <style lang="sass" src="./global.sass"></style>

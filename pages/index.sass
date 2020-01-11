@@ -1,0 +1,43 @@
+@import '~/assets/breakpoints.sass'
+    
+.root
+    display: block
+
+.tile-container
+    display: flex
+    flex-flow: row nowrap
+    // justify-content: center
+    width: 100vw
+    max-width: 100%
+    filter: opacity(1)
+    transition: filter 10s ease
+
+    &.loading
+        filter: opacity(.2)
+
+    &.col-1, &.col-2
+        display: none
+
+    &.col-2, &.col-3
+        .column:nth-child(1)
+            padding-top: 10rem
+    
+    &.col-3 .column:nth-child(3)
+        padding-top: 5rem
+
+    .column
+        width: auto
+        max-width: 500px
+        overflow: hidden
+
+    @media (max-width: $xl-max-width)
+        &.col-1, &.col-3
+            display: none
+        &.col-2
+            display: flex
+
+    @media (max-width: $l-max-width)
+        &.col-2, &.col-3
+            display: none
+        &.col-1
+            display: flex

@@ -1,23 +1,189 @@
+@import '~/assets/breakpoints.sass'
+@import '~/assets/theme.sass'
+    
+$translateX: -75vmin
+$nav-height: 1.5rem
+$nav-padding-top: 2rem
+$nav-padding-bottom: 1rem
+$nav-calc-full-height: calc(#{$nav-padding-top} + #{$nav-padding-bottom} + #{$nav-height})
+
 nav
-    position: sticky
-    display: flex
-    width: 90vw
+    overflow: hidden
     margin: 0 auto
-    margin-top: 1rem
-    padding: 1rem 0
-    justify-content: space-between
-    align-items: center
+    padding-top: $nav-padding-top
+    padding-bottom: $nav-padding-bottom
 
-    a
-        display: inline-block
-        max-width: 2.5rem
+    @media (max-width: $xl-max-width)
+        width: 90vw
+        max-width: 90%
 
-        img
-            object-fit: contain
-            width: 100%
-            height: 100%
+    menu
+        margin: 0
+        padding: 0
 
-@media screen and (prefers-color-scheme: dark)
-    nav 
-        .menu img
-            filter: invert(100%)
+        &.icons
+            width: 100vw
+            max-width: 100%
+            display: flex
+            justify-content: flex-end
+            align-items: center
+            z-index: 999
+
+            @media screen and (min-width: $xl-max-width)
+                display: none
+
+            .icon
+                touch-action: manipulation
+                cursor: pointer
+
+                img
+                    z-index: 100
+                    display: block
+                    height: 100%
+                    max-height: $nav-height
+                    object-fit: contain
+
+                    @media screen and (prefers-color-scheme: dark)
+                        filter: invert(100%)
+                
+                &.toggle-menu
+                    position: relative
+
+                    &::before
+                        $size: .8rem
+                        z-index: 99
+                        content: ''
+                        display: block
+                        position: absolute
+                        top: 0
+                        right: 0
+                        margin-top: -$size / 2
+                        margin-left: $size / 2
+                        width: $size
+                        height: $size
+                        border-radius: 50%
+                        background: $accent-color
+                        transform: scale(0)
+                        filter: opacity(0)
+                        transition-property: transform, filter
+                        transition-duration: .25s
+                        transition-timing-function: ease
+                    
+                    &.attended::before
+                        transform: scale(1)
+                        filter: opacity(1)
+
+        &.main
+            z-index: 998
+            // width: 100%
+            padding: 1rem
+
+            a
+                text-decoration: none
+                color: inherit
+            
+            display: flex
+            justify-content: flex-end
+            align-items: center
+            flex-flow: row nowrap
+            
+            @media (max-width: $xl-max-width)
+                display: block
+                top: 0
+                will-change: transform, filter
+                transition-property: transform, filter
+                transition-duration: .25s
+                transition-timing-function: ease
+                position: fixed
+                max-width: -$translateX
+                max-height: calc(100% - #{$nav-calc-full-height})
+                transform: scale(.9)
+                filter: opacity(.25)
+                left: 100vw
+                margin-top: $nav-padding-top + $nav-padding-bottom + $nav-height
+                margin-left: calc(100% + #{$translateX})
+                text-align: right
+
+                &.translated
+                    transform: translate(-100vw) scale(1)
+                    filter: opacity(1)
+
+            .filters
+                margin-right: 10rem
+
+                input
+                    display: none
+
+                    &:checked + label .filter span
+                        color: $accent-color
+                        border-bottom: 1px solid $accent-color
+                
+                .filter
+                    display: inline-block
+                    cursor: pointer
+                    touch-action: manipulation
+
+                    span
+                        will-change: color, border-bottom-width
+                        transition: border-bottom-width .25s, color .25s
+                        padding: 0 .5rem
+                        font-size: 1.5rem
+
+                        &:hover, 
+                            border-bottom-width: 5
+            
+            .contacts
+                h3
+                    margin: .5rem 0
+
+main
+    @media (max-width: $xl-max-width)
+        will-change: transform, filter
+        transition-property: transform, filter
+        transition-duration: .25s
+        transition-timing-function: ease
+        transform-style: preserve-3d
+
+        &.translated
+            transform: translateX($translateX)
+            // filter: opacity(.25)
+
+::v-deep
+    .tile
+        will-change: transform
+        transition-property: transform
+        transition-duration: .25s
+        transition-timing-function: ease
+    
+    main.translated .tile
+        transform: scale(.9)
+
+footer
+    .button-scroll-top
+        position: fixed
+        bottom: 5vmin
+        left: 5vmin
+        transition-property: filter transform
+        transition-duration: .25s
+        transition-timing-function: ease
+        cursor: pointer
+        width: 3rem
+        max-width: 15vmin
+        height: 3rem
+        max-height: 15vmin
+        border-radius: 50%
+        background-color: rgb(255, 102, 30)
+        background-image: url('~assets/img/down.png')
+        background-size: 50%
+        background-position: center
+        background-repeat: no-repeat
+        box-shadow: 0 0 .1rem .1rem rgb(255, 102, 30)
+
+        &.hidden
+            transform: scale(0)
+        
+        &.down
+            transition-delay: .25s
+        
+        &.up
+            transform: rotateZ(180deg)
