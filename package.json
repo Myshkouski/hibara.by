@@ -13,9 +13,16 @@
     },
     "dependencies": {
         "@nuxtjs/pwa": "^3.0.0-beta.19",
+        "cross-env": "^6.0.3",
         "dotenv": "^8.2.0",
         "nuxt": "^2.11.0",
         "serve": "^11.3.0",
         "vue-lazyload": "^1.3.3"
+    },
+    "scripts": {
+        "gen:local": "cross-env NODE_ENV=staging nuxt generate --spa",
+        "gen:github": "cross-env NODE_ENV=production nuxt generate --spa",
+        "start": "serve -l 3000 docs",
+        "dev": "nuxt --spa"
     }
 }

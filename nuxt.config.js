@@ -13,6 +13,7 @@ export default {
     ],
     
     build: {
+        publicPath: '/assets/',
         // parallel: true,
         cache: true,
         optimizeCSS: true,

@@ -13,7 +13,7 @@ export default {
                 // { name: 'og:image', property: 'og:image', content: 'https://myshkouski.github.io/tetris-challenge/qr-code.png' }
             ],
             link: [
-                { rel: 'icon', type: 'image/png', href: require('~/assets/img/favicon.png') },
+                { rel: 'icon', type: 'image/png', href: require('~/assets/img/favicon.png') }
             ],
             script: [
                 // { src: 'metrika.js' }
