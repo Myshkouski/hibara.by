@@ -5,12 +5,13 @@
     )
         div
             div.swiper-container
-                swiper.swiper(
-                    v-if="swiper"
-                    :options="swiper"
-                )
-                    slide.slide(v-for="(img, index) in item.media.img" :key="index")
-                        lazy-img(:src="img[0].filename" :srcset="createSrcSet(img)")
+                client-only
+                    swiper.swiper(
+                        v-if="swiper"
+                        :options="swiper"
+                    )
+                        slide.slide(v-for="(img, index) in item.media.img" :key="index")
+                            lazy-img(:src="img[0].filename" :srcset="createSrcSet(img)")
                 div.control.prev(ref="button-prev" slot="button-prev")
                 div.control.next(ref="button-next" slot="button-next")
             article.content

@@ -1,12 +1,20 @@
 import { mapState, mapMutations } from 'vuex'
 import Item from '~/mixins/item'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import LazyImage from 'v-lazy-image'
+// import { swiper, swiperSlide } from 'vue-awesome-swiper'
+
+const clientOnlyComponents = process.browser ? (function ({ swiper, swiperSlide }) {
+    return {
+        'swiper': swiper,
+        'slide': swiperSlide
+    }
+})(require('vue-awesome-swiper').default) : {}
 
 export default {
     components: {
-        'swiper': swiper,
-        'slide': swiperSlide,
+        ...clientOnlyComponents,
+        // 'swiper': swiper,
+        // 'slide': swiperSlide,
         'lazy-img': LazyImage
     },
 

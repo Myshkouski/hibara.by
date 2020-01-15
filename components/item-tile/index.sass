@@ -25,26 +25,20 @@ $border-radius: 1rem
         height: 100%
         border-radius: $border-radius
         box-shadow: 0 0 .5rem .5rem
-        transition-property: color
-        opacity: .35
-        
-        @supports (opacity: unset) and (filter: opacity(1)) and (filter: grayscale(1))
-            transition: filter .25s
-            opacity: unset
-            color: $accent-color
-            filter: grayscale(1) opacity(.35)
+        opacity: .25
+        transition-property: color, opacity
+        transition-duration: .25s
+        color: #333
 
         @media (prefers-color-scheme: dark)
-            background: #333
-            color: rgba(0, 0, 0, .25)
+            color: #111
 
     &.selected::before
-        opacity: 1
+        color: $accent-color
+        opacity: .75
 
-        @supports (opacity: unset) and (filter: opacity(1)) and (filter: grayscale(1))
-            opacity: unset
-            filter: grayscale(0) opacity(1)
-        
+        @media (prefers-color-scheme: dark)
+            opacity: .5
 
     .content
         padding: 1rem

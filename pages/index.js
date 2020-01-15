@@ -28,19 +28,31 @@ export default {
         'item-tile': ItemTile
     },
 
-    async asyncData({ store, app }) {
+    async asyncData({ store, app, isDev, req }) {
         const codes = store.getters['items/codes']
 
         const data = {
             itemsPerPage: 6
         }
         
+        let host, protocol = 'http'
+
+        if(process.server) {
+            host = req.headers.host
+            req.socket.secure && (protocol += 's')
+            protocol += ':'
+        } else if(process.client) {
+            host = window.location.host
+            protocol = window.location.protocol
+        }
 
         const { base } = app.router.options
 
+        const baseUrl = protocol + '//' + host + base
+
         return {
             ...data,
-            items: await fetchItems(codes.slice(0, data.itemsPerPage), base)
+            items: await fetchItems(codes.slice(0, data.itemsPerPage), baseUrl)
         }
     },
 

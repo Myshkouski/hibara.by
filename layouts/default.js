@@ -5,6 +5,12 @@ const scrollOptions = { behavior: 'smooth' }
 
 export default {
     head() {
+        const script = []
+
+        if(process.isDev) {
+            script.push({ src: require('~/assets/metrika.js') })
+        }
+
         return {
             meta: [
                 { charset: 'utf-8' },
@@ -15,9 +21,7 @@ export default {
             link: [
                 { rel: 'icon', type: 'image/png', href: require('~/assets/img/favicon.png') }
             ],
-            script: [
-                // { src: 'metrika.js' }
-            ]
+            script
         }
     },
 
@@ -85,23 +89,10 @@ export default {
 
         isMenuActive(active) {
             if(active) {
-                this.scrollTimeout = null
-                this.scrollListener = () => {
-                    if (this.scrollTimeout) {
-                        clearTimeout(this.scrollTimeout)
-                        this.scrollTimeout = null
-                    }
-
-                    this.scrollTimeout = setTimeout(() => {
-                        this.scrollToNav()
-                    }, 50)
-                    
-                }
-                this.scrollListener()
-                window.addEventListener('scroll', this.scrollListener)
+                this.onScroll()
+                window.addEventListener('scroll', this.onScroll)
             } else {
-                const removed = window.removeEventListener('scroll', this.scrollListener)
-                console.log('remove listener', removed)
+                window.removeEventListener('scroll', this.onScroll)
             }
         }
     },
@@ -118,6 +109,17 @@ export default {
                 rootMargin: Array(4).fill('10%').join(' ')
             })
             observer.observe(nav)
+        },
+
+        onScroll() {
+            if (this.scrollTimeout) {
+                clearTimeout(this.scrollTimeout)
+                this.scrollTimeout = null
+            }
+
+            this.scrollTimeout = setTimeout(() => {
+                this.scrollToNav()
+            }, 50)
         },
 
         scrollTop() {
@@ -143,7 +145,10 @@ export default {
         },
 
         scrollToNav(options = scrollOptions) {
-            this.$refs['nav'].scrollIntoView(options)
+            this.$refs['nav'].scrollIntoView({
+                ...options,
+                block: 'start'
+            })
         },
 
         getButtonScrollTopText(state) {
@@ -165,7 +170,6 @@ export default {
 
     mounted() {
         this.setNavObserver()
-        
-        // console.log(document.readyState)
+        this.onScroll = this.onScroll.bind(this)
     }
 }
