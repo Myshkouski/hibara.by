@@ -7,9 +7,9 @@ export default {
     head() {
         const script = []
 
-        // if(process.isDev) {
-            script.push({ src: require('~/assets/metrika.js') })
-        // }
+        if(process.client) {
+            script.push({ src: require('~' + '/assets/metrika.js') })
+        }
 
         return {
             meta: [

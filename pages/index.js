@@ -28,37 +28,42 @@ export default {
         'item-tile': ItemTile
     },
 
-    async asyncData({ store, app, isDev, req }) {
-        const codes = store.getters['items/codes']
+    // async asyncData({ store, app, req }) {
+    //     const codes = store.getters['items/codes']
 
-        const data = {
-            itemsPerPage: 6
-        }
-        
-        let host, protocol = 'http'
+    //     const data = {
+    //         itemsPerPage: 6
+    //     }
 
-        if(process.server) {
-            host = req.headers.host
-            req.socket.secure && (protocol += 's')
-            protocol += ':'
-        } else if(process.client) {
-            host = window.location.host
-            protocol = window.location.protocol
-        }
+    //     let host, protocol = 'http'
 
-        const { base } = app.router.options
+    //     if(process.server) {
+    //         host = req.headers.host
+    //         req.socket.secure && (protocol += 's')
+    //         protocol += ':'
+    //     } else if(process.client) {
+    //         host = window.location.host
+    //         protocol = window.location.protocol
+    //     }
 
-        const baseUrl = protocol + '//' + host + base
+    //     const { base } = app.router.options
 
+    //     const baseUrl = protocol + '//' + host + base
+
+    //     return {
+    //         ...data,
+    //         items: await fetchItems(codes.slice(0, data.itemsPerPage), baseUrl)
+    //     }
+    // },
+
+    data(component) {
+        const codes = component.$store.getters['items/codes']
+
+        const itemsPerPage = 6
         return {
-            ...data,
-            items: await fetchItems(codes.slice(0, data.itemsPerPage), baseUrl)
-        }
-    },
-
-    data() {
-        return {
-            loading: true
+            itemsPerPage,
+            loading: true,
+            items: codes.slice(0, itemsPerPage).map(code => require(`~/static/${itemsEndpoint + code}.json`))
         }
     },
 

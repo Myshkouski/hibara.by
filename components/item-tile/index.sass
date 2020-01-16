@@ -3,13 +3,15 @@
 $border-radius: 1rem
 
 .tile
+    position: relative
     margin: 2rem 1rem
 
     & > div
         position: relative
         background: #eee
-        overflow: hidden
         border-radius: $border-radius
+        overflow: hidden
+        mask-image: radial-gradient(white, black)
 
         @media (prefers-color-scheme: dark)
             background: #333
@@ -175,7 +177,7 @@ aside
             border-top-left-radius: $border-radius
         &:last-child
             border-top-right-radius: $border-radius
-
+        
         img
             object-fit: cover
             object-position: center
@@ -188,22 +190,22 @@ $size: 2rem
 .swiper-container
     position: relative
 
-.control
-    position: absolute
-    top: 50%
-    margin-top: -$size / 2
-    $offset: 0.1
-    width: $size
-    height: $size
-    display: flex
-    flex-direction: column
-    justify-content: center
-    left: $size * $offset
-    bottom: 0
-    overflow: hidden
-    border-radius: 50%
-    background: rgba(255, 255, 255, .5)
+    .control
+        position: absolute
+        top: 50%
+        margin-top: -$size / 2
+        $offset: 0.1
+        width: $size
+        height: $size
+        display: flex
+        flex-direction: column
+        justify-content: center
+        left: $size * $offset
+        bottom: 0
+        overflow: hidden
+        border-radius: 50%
+        background: rgba(255, 255, 255, .5)
 
-    &.next
-        left: 100%
-        margin-left: -$size * (1 + $offset)
+        &.next
+            left: 100%
+            margin-left: -$size * (1 + $offset)

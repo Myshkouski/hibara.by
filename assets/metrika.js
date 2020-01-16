@@ -5,9 +5,9 @@
     m[i].l = 1 * new Date();
     k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
 })
-(window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
 
-ym(57046006, "init", {
+ym(57046006, 'init', {
     clickmap: true,
     trackLinks: true,
     accurateTrackBounce: true,
