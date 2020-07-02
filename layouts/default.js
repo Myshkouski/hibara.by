@@ -8,7 +8,7 @@ export default {
         const script = []
 
         if(process.client) {
-            script.push({ src: require('~' + '/assets/metrika.js') })
+            script.push({ src: '/metrika.js' })
         }
 
         return {
@@ -164,12 +164,26 @@ export default {
         },
 
         setCssVars() {
-            
+            const { width } = this.$refs['main-menu'].getBoundingClientRect()
+            this.$refs['root'].style.setProperty('--translateX', '-' + width + 'px')
+        },
+
+        onReadyStateChange(event) {
+            if (event.target.readyState == 'complete') {
+                this.setCssVars()
+            }
         }
     },
 
     mounted() {
         this.setNavObserver()
         this.onScroll = this.onScroll.bind(this)
+        this.onReadyStateChange = this.onReadyStateChange.bind(this)
+        
+        // document.addEventListener('readystatechange', this.onReadyStateChange)
+    },
+
+    beforeUnmount() {
+        document.removeEventListener('readystatechange', this.onReadyStateChange)
     }
 }

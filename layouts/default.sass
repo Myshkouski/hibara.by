@@ -1,11 +1,14 @@
 @import '~/assets/breakpoints.sass'
 @import '~/assets/theme.sass'
-    
-$translateX: -75vmin
-$nav-height: 1.5rem
-$nav-padding-top: 2rem
-$nav-padding-bottom: 1rem
-$nav-calc-full-height: calc(#{$nav-padding-top} + #{$nav-padding-bottom} + #{$nav-height})
+
+$translateX: -80vmin
+$nav-inner-height: 1.5rem
+$nav-padding-top: 1.5rem
+$nav-padding-bottom: 0rem
+$nav-outer-height: #{$nav-padding-top} + #{$nav-padding-bottom} + #{$nav-inner-height}
+
+.root-container
+    --translateX: #{$translateX}
 
 nav
     overflow: hidden
@@ -13,13 +16,43 @@ nav
     padding-top: $nav-padding-top
     padding-bottom: $nav-padding-bottom
 
-    @media (max-width: $xl-max-width)
+    @media (max-width: $l-max-width)
         width: 90vw
         max-width: 90%
 
     menu
         margin: 0
         padding: 0
+
+        .icon.logo img
+            margin: 0 auto
+            width: auto
+            max-width: 75%
+            height: auto
+            max-height: 10rem
+
+            @media (max-height: $l-landscape-max-height)
+                max-height: 25vmin
+
+            @media (max-height: $m-landscape-max-height)
+                max-height: 15vmin
+
+            @media (max-height: $s-landscape-max-height)
+                display: none
+                // max-height: 15vmin
+
+        .icon.action
+            height: $nav-inner-height
+        
+        img
+            z-index: 100
+            display: block
+            max-width: 100%
+            max-height: 100%
+            object-fit: contain
+
+            @media screen and (prefers-color-scheme: dark)
+                filter: invert(100%)
 
         &.icons
             width: 100vw
@@ -29,22 +62,14 @@ nav
             align-items: center
             z-index: 999
 
-            @media screen and (min-width: $xl-max-width)
+            @media screen and (min-width: $l-max-width)
                 display: none
 
             .icon
+                overflow: hidden
                 touch-action: manipulation
                 cursor: pointer
 
-                img
-                    z-index: 100
-                    display: block
-                    height: 100%
-                    max-height: $nav-height
-                    object-fit: contain
-
-                    @media screen and (prefers-color-scheme: dark)
-                        filter: invert(100%)
                 
                 &.toggle-menu
                     position: relative
@@ -74,9 +99,10 @@ nav
                         filter: opacity(1)
 
         &.main
+            position: relative
             z-index: 998
-            // width: 100%
             padding: 1rem
+            overflow: hidden
 
             a
                 text-decoration: none
@@ -84,32 +110,41 @@ nav
             
             display: flex
             justify-content: flex-end
-            align-items: center
+            align-items: stretch
             flex-flow: row nowrap
             
-            @media (max-width: $xl-max-width)
-                display: block
+            @media (max-width: $l-max-width)
+                flex-direction: column
                 top: 0
                 will-change: transform, filter
                 transition-property: transform, filter
                 transition-duration: .25s
                 transition-timing-function: ease
                 position: fixed
-                max-width: -$translateX
-                max-height: calc(100% - #{$nav-calc-full-height})
+                height: 100vh
+                margin-top: calc(#{$nav-outer-height})
+                max-height: calc(100% - (#{$nav-outer-height}))
                 transform: scale(.9)
                 filter: opacity(.25)
                 left: 100vw
-                margin-top: $nav-padding-top + $nav-padding-bottom + $nav-height
+                
                 margin-left: calc(100% + #{$translateX})
+                margin-left: calc(100% + var(--translateX))
+                
+                width: -$translateX
+                width: calc(-1 * var(--translateX))
+                
                 text-align: right
 
                 &.translated
                     transform: translate(-100vw) scale(1)
                     filter: opacity(1)
+            
+            .branding
+                flex-grow: 0
 
             .filters
-                margin-right: 10rem
+                flex-grow: 1
 
                 input
                     display: none
@@ -133,8 +168,14 @@ nav
                             border-bottom-width: 5
             
             .contacts
+                flex-grow: 0
+                overflow: hidden
+                
                 h3
                     margin: .5rem 0
+                    overflow: hidden
+                    text-overflow: ellipsis
+                    white-space: nowrap
 
 main
     @media (max-width: $xl-max-width)
@@ -146,6 +187,7 @@ main
 
         &.translated
             transform: translateX($translateX)
+            transform: translateX(var(--translateX))
             // filter: opacity(.25)
 
 ::v-deep
@@ -187,3 +229,13 @@ footer
         
         &.up
             transform: rotateZ(180deg)
+
+.branding
+    text-align: center
+    white-space: nowrap
+
+    span, a
+        font-size: .75rem
+    
+    a
+        text-decoration: underline !important

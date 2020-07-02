@@ -1,16 +1,28 @@
-div.root-container
+div.root-container(ref="root")
     nav(id="nav" ref="nav")
         menu.icons
-            div.icon.toggle-menu(:class="{ attended: tagFilter.length }")
-                img(src="~/assets/img/menu.png" alt="Меню" @click="isMenuActive = !isMenuActive")
+            div.actions
+                div.icon.action.toggle-menu(:class="{ attended: tagFilter.length }")
+                    img(src="~/assets/img/menu.png" alt="Меню" @click="isMenuActive = !isMenuActive")
         menu.main(
             ref="main-menu"
             :class="{ translated: isMenuActive }"
         )
+            ul.contacts
+                li.menu-item
+                    a(:href="'tel:+' + contacts.tel" target="blank")
+                        h3 +{{ contacts.tel }}
+                li.menu-item
+                    a(:href="'//t.me/' + contacts.tg" target="blank")
+                        h3 Telegram
+                li.menu-item
+                    a(:href="emailHref" target="blank")
+                        h3 {{ contacts.email }}
             div.filters
-                //- p {{ tags }}
-                //- p {{ tagFilter }}
-                div(v-for="(tag, index) in tags" :key="tag")
+                select(multiple)
+                    option(v-for="(tag, index) in tags" :key="tag")
+                        span {{ tagNames.get(tag) }}
+                //- div(v-for="(tag, index) in tags" :key="tag")
                     input(
                         type="checkbox"
                         :id="'input-filter-' + tag"
@@ -20,16 +32,13 @@ div.root-container
                     label(:for="'input-filter-' + tag")
                         div.filter
                             span \#{{ tagNames.get(tag) }}
-            ul.contacts
-                li.menu-item
-                    a(:href="'tel:+' + contacts.tel" target="blank")
-                        h3 {{ contacts.tel }}
-                li.menu-item
-                    a(:href="'//t.me/' + contacts.tg" target="blank")
-                        h3 Telegram
-                li.menu-item
-                    a(:href="emailHref" target="blank")
-                        h3 {{ contacts.email }}
+            div.branding
+                div.icon.logo
+                    img(src="~/assets/img/logo.webp" alt="logo")
+                div
+                    span hibara.by
+                    span  | designed by 
+                    a(href="https://github.com/Myshkouski/build-house.by" target="_blank") myshkouski
     main(:class="{ translated: isMenuActive }")
         nuxt
     footer
