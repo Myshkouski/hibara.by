@@ -3,7 +3,7 @@
         "html-dom-parser": "^0.2.3",
         "js-htmlencode": "^0.3.0",
         "lodash": "^4.17.15",
-        "node-sass": "^4.14.1",
+        "node-sass": "^7.0.0",
         "parse-srcset": "^1.0.2",
         "pug": "^2.0.4",
         "pug-plain-loader": "^1.0.0",
